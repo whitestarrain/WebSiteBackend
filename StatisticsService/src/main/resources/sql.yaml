@@ -1,0 +1,53 @@
+hive:
+  calculateCityFlow: |
+    select city,round(sum(flow)/(1024*1024),3) sum_flow from
+    (select flow,ip_to_city(ip) city from logs) tt1
+    group by city
+  calculateAgentCount: |
+    select agent,count(agent) count from
+    (select get_agent(agent) agent from logs) tt1
+    group by  agent
+  calculateCityCounts: |
+    select city,count(city) count from
+    (select ip_to_city(ip) city from logs) tt1
+    group by city
+
+  calculateMethodCount: |
+    select method,count(1) count from logs group by method
+
+  calculateStatusCount: |
+    select status,count(1) count from logs group by status
+
+  calculateHUserType: |
+    with tt1 as (select userid,year,month,day from logs group by userid,year,month,day)
+    select userid,is_old_user(min_date(year,month,day),max_date(year,month,day), count(1)) isOlduser from tt1
+    group by userid
+
+  calculateDayView: |
+    select count(1) count from
+    (select year,month,day from logs
+    where year=? and month = ? and day = ?) tt1
+    group by year,month,day
+  repairMetadata: |
+    msck repair table logs
+mysql:
+  getNextNum1: |
+    insert into num_table() values()
+  getNextNum2: |
+    select max(id) from num_table
+  insertCityFlow: |
+    insert into flow_distribution(num,city,sumFlow) values(?,?,?)
+  insertAgentCount: |
+    insert into agent(num,agent,count) values(?,?,?)
+  insertCityCount: |
+    insert into  city_distribute(num,city,count) values(?,?,?)
+  insertMethodCount: |
+    insert into  request_method(num,method,count) values(?,?,?)
+  insertStatusCount: |
+    insert into status(num,status,count) values(?,?,?)
+  insertUserType: |
+    insert into  old_user(num,userId,isOldUser) values(?,?,?)
+  addDayView: |
+    insert into visit(year,month,day,count) values(?,?,?,?)
+  dayFlowIsExist: |
+    select count(1) from visit where year = ? and month = ? and day = ?

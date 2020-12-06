@@ -1,0 +1,5 @@
+logPath=/var/website-logs
+reg= .+\\.\\d{4}-\\d{2}-\\d{2}\\.(log|txt)
+remotePath=/user/hive/warehouse/website_logs.db/logs
+hdfsUri=hdfs://node0011:9000
+userName=hadoop
