@@ -1,4 +1,4 @@
-package cn.edu.neu.bean.hdaomin;
+package cn.edu.neu.hdaomin;
 
 /**
  * @author liyu

@@ -1,8 +1,8 @@
 package cn.edu.neu.dao.hdao;
 
-import cn.edu.neu.bean.hdaomin.*;
-import cn.edu.neu.dao.utils.HiveJdbcUtils;
 import cn.edu.neu.conf.SqlContainer;
+import cn.edu.neu.dao.utils.HiveJdbcUtils;
+import cn.edu.neu.hdaomin.*;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -40,8 +40,8 @@ public class HiveDao {
 
     }
 
-    public List<HUserType> calculateHUserType() {
-        return jdbc.query(SqlContainer.sqlMap.get("hive").get("calculateHUserType"),
+    public List<HUserType> calculateUserType() {
+        return jdbc.query(SqlContainer.sqlMap.get("hive").get("calculateUserType"),
                 new BeanPropertyRowMapper<HUserType>(HUserType.class));
     }
 
@@ -55,7 +55,13 @@ public class HiveDao {
         return integers.get(0);
     }
 
+    public List<HReferCount> calculateReferCount() {
+        return jdbc.query(SqlContainer.sqlMap.get("hive").get("calculateReferCount"),
+                new BeanPropertyRowMapper<HReferCount>(HReferCount.class));
+    }
+
     public void repairMetadata() {
         jdbc.execute(SqlContainer.sqlMap.get("hive").get("repairMetadata"));
     }
+
 }

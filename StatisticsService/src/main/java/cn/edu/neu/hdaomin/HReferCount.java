@@ -1,26 +1,26 @@
-package cn.edu.neu.bean.hdaomin;
+package cn.edu.neu.hdaomin;
 
 /**
  * @author liyu
  */
-public class HStatusCount {
-    private int status;
+public class HReferCount {
+    private String refer;
     private int count;
 
     @Override
     public String toString() {
-        return "HstatusCounts{" +
-                "status=" + status +
+        return "HReferCount{" +
+                "refer='" + refer + '\'' +
                 ", count=" + count +
                 '}';
     }
 
-    public int getStatus() {
-        return status;
+    public String getRefer() {
+        return refer;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setRefer(String refer) {
+        this.refer = refer;
     }
 
     public int getCount() {

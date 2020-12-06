@@ -1,8 +1,8 @@
 package cn.edu.neu.dao.mdao;
 
-import cn.edu.neu.bean.hdaomin.*;
-import cn.edu.neu.dao.utils.JdbcUtils;
 import cn.edu.neu.conf.SqlContainer;
+import cn.edu.neu.dao.utils.JdbcUtils;
+import cn.edu.neu.hdaomin.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
@@ -63,14 +63,24 @@ public class MysqlDao {
         }
     }
 
+    public void insertReferCount(int num, List<HReferCount> hReferCountList) {
+        String sql = SqlContainer.sqlMap.get("mysql").get("insertReferCount");
+        for (HReferCount hReferCount : hReferCountList) {
+            jdbc.update(sql, num, hReferCount.getRefer(), hReferCount.getCount());
+        }
+    }
+
+
     public void addDayView(HDayView hDayView) {
         String sql = SqlContainer.sqlMap.get("mysql").get("addDayView");
         jdbc.update(sql, hDayView.getYear(), hDayView.getMonth(), hDayView.getDay(), hDayView.getCount());
     }
+
 
     public boolean dayFlowIsExist(int year, int month, int day) {
         String sql = SqlContainer.sqlMap.get("mysql").get("dayFlowIsExist");
         Integer i = jdbc.queryForObject(sql, Integer.class, year, month, day);
         return i > 0;
     }
+
 }

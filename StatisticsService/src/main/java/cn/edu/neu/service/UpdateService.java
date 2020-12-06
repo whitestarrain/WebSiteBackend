@@ -1,8 +1,8 @@
 package cn.edu.neu.service;
 
-import cn.edu.neu.bean.hdaomin.*;
 import cn.edu.neu.dao.hdao.HiveDao;
 import cn.edu.neu.dao.mdao.MysqlDao;
+import cn.edu.neu.hdaomin.*;
 
 import java.util.List;
 
@@ -41,8 +41,13 @@ public class UpdateService {
     }
 
     private void updateHUserType(int num) {
-        List<HUserType> hUserTypeList = hdao.calculateHUserType();
+        List<HUserType> hUserTypeList = hdao.calculateUserType();
         mdao.insertUserType(num, hUserTypeList);
+    }
+
+    private void updateReferCount(int num) {
+        List<HReferCount> hReferCountList = hdao.calculateReferCount();
+        mdao.insertReferCount(num, hReferCountList);
     }
 
     public void addDayView(int year, int month, int day) {
@@ -56,16 +61,32 @@ public class UpdateService {
         mdao.addDayView(new HDayView(year, month, day, count));
     }
 
+
     public void updateAll() {
         System.out.println("统计数据更新");
         int num = mdao.getNextNum();
+        System.out.println("  -- 更新agent统计");
         this.updateAgentCount(num);
+
+        System.out.println("  -- 更新访客地区统计");
         this.updateCityCount(num);
+
+        System.out.println("  -- 更新流量统计");
         this.updateCityFlow(num);
+
+        System.out.println("  -- 更新请求方法统计");
         this.updateMethodCount(num);
+
+        System.out.println("  -- 更新响应状态统计");
         this.updateStatusCount(num);
+
+        System.out.println("  -- 更新用户类别统计");
         this.updateHUserType(num);
+
+        System.out.println("  -- 更新访问refer统计");
+        this.updateReferCount(num);
     }
+
 
     public void repairMetadata() {
         hdao.repairMetadata();
