@@ -40,7 +40,7 @@ public class UpdateService {
         mdao.insertStatusCount(num, hStatusCountList);
     }
 
-    private void updateHUserType(int num) {
+    private void updateUserType(int num) {
         List<HUserType> hUserTypeList = hdao.calculateUserType();
         mdao.insertUserType(num, hUserTypeList);
     }
@@ -48,6 +48,10 @@ public class UpdateService {
     private void updateReferCount(int num) {
         List<HReferCount> hReferCountList = hdao.calculateReferCount();
         mdao.insertReferCount(num, hReferCountList);
+    }
+    private void updateUserCount(int num) {
+        List<HUserCount> hUserCountList = hdao.calculateUserCount();
+        mdao.insertUserCount(num,hUserCountList);
     }
 
     public void addDayView(int year, int month, int day) {
@@ -81,11 +85,15 @@ public class UpdateService {
         this.updateStatusCount(num);
 
         System.out.println("  -- 更新用户类别统计");
-        this.updateHUserType(num);
+        this.updateUserType(num);
 
         System.out.println("  -- 更新访问refer统计");
         this.updateReferCount(num);
+
+        System.out.println("  -- 更新游客和用户数量统计");
+        this.updateUserCount(num);
     }
+
 
 
     public void repairMetadata() {

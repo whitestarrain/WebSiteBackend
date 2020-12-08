@@ -18,10 +18,9 @@ hive:
   calculateStatusCount: |
     select status,count(1) count from logs group by status
 
-  calculateUserType : |
-    with tt1 as (select userid,year,month,day from logs group by userid,year,month,day)
-    select userid,is_old_user(min_date(year,month,day),max_date(year,month,day), count(1)) isOlduser from tt1
-    group by userid
+  calculateUserType: |
+    with tt1 as (select userid,year,month,day from logs where userid<>'-' group by userid,year,month,day)
+    select userid,is_old_user(min_date(year,month,day),max_date(year,month,day), count(1)) isOlduser from tt1 group by userid
 
   calculateDayView: |
     select count(1) count from
@@ -31,6 +30,11 @@ hive:
 
   calculateReferCount: |
     select refer,count(1) count from logs group by refer
+  calculateUserCount: |
+    select userCount,visitorCount from
+    (select count(1) visitorCount from logs where userid='-') tt1
+    join
+    (select count(1) userCount from logs where userid<>'-') tt2
 
   repairMetadata: |
     msck repair table logs
@@ -54,6 +58,8 @@ mysql:
     insert into  old_user(num,userId,isOldUser) values(?,?,?)
   insertReferCount: |
     insert into  refer_count(num,refer,count) values(?,?,?)
+  insertUserCount: |
+    insert into  user_count(num,userCount,visitorCount) values(?,?,?)
   addDayView: |
     insert into visit(year,month,day,count) values(?,?,?,?)
   dayFlowIsExist: |

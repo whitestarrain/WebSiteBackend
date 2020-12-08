@@ -70,6 +70,13 @@ public class MysqlDao {
         }
     }
 
+    public void insertUserCount(int num, List<HUserCount> hUserCountList) {
+        String sql = SqlContainer.sqlMap.get("mysql").get("insertUserCount");
+        for (HUserCount hUserCount : hUserCountList) {
+            jdbc.update(sql, num, hUserCount.getUserCount(), hUserCount.getVisitorCount());
+        }
+    }
+
 
     public void addDayView(HDayView hDayView) {
         String sql = SqlContainer.sqlMap.get("mysql").get("addDayView");

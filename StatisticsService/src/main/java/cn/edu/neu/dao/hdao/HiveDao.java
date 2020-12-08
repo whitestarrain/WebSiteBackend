@@ -45,6 +45,11 @@ public class HiveDao {
                 new BeanPropertyRowMapper<HUserType>(HUserType.class));
     }
 
+    public List<HUserCount> calculateUserCount() {
+        return jdbc.query(SqlContainer.sqlMap.get("hive").get("calculateUserCount"),
+                new BeanPropertyRowMapper<HUserCount>(HUserCount.class));
+    }
+
     public int calculateDayView(int year, int month, int day) {
         List<Integer> integers = jdbc.queryForList(SqlContainer.sqlMap.get("hive").get("calculateDayView"),
                 new Object[]{year, month,
